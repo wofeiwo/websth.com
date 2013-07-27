@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+            {% block navlist %}
+            <li><a href="/">首页</a></li>
+            <li><a href="/static/app/Website%20Analyzer.crx">下载插件</a></li>
+            <li><a href="https://github.com/wofeiwo/Website-Analyzer">源代码</a></li>
+            <li class="active"><a href="/tutorial">安装指南</a></li>
+            {% endblock %}
+            {% block content %}
+            <div class="row-fluid">
+                <h3>安装方式：</h3>
+                <hr>
+                <div class="row-fluid">
+                  <p>因为chrome store需要支付5美元，而google wallet又不认我的卡，实在没法，只能让大家手动安装了。方法如下：
+                  <ol> 
+                    <li><a href="/static/app/Website Analyzer.crx" target="_blank">下载插件</a>，当前版本1.0.3</li>
+                    <li>访问<a href="chrome://extensions/" target="_blank">chrome://extensions/</a> </li>
+                    <li>将下载下来的扩展拖入其中安装。</li>
+                  </ol> 
+                  </p>
+                </div>
+                <h3>其他：</h3>
+                <hr>
+                <div class="row-fluid">
+                  <p>
+                  <ol> 
+                    <li>有什么bug或者建议，<a href="https://github.com/wofeiwo/Website-Analyzer/issues" target="_blank">欢迎提交</a></li>
+                    <li>当然是开源的，代码托管于<a href="https://github.com/wofeiwo/Website-Analyzer" target="_blank">github上</a> </li>
+                  </ol> 
+                  </p>
+                </div>
+              </div>
+            {% endblock %}

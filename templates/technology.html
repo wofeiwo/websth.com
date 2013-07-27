@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+            {% block content %}
+            <div class="row-fluid">
+                <h3>{{title}}</h3>
+                <hr>
+            </div>
+            <div class="row-fluid">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <td><strong>域名</strong></td>
+                        <td><strong>端口</strong></td>
+                        <td><strong>使用技术</strong></td>
+                    </tr>
+                    </thead>
+                    <tbody id="detail">
+                        {% for w in websites.items %}
+                        <tr>
+                            <td><a href="http://{{ w.hostname }}:{{ w.port }}/" target="_blank">{{ w.hostname }}</a></td>
+                            <td>{{ w.port }}</td>
+                            <td>
+                                {% for t in w.technologies %}
+                                    {% if t.detail %}
+                                    <strong class="label label-info">{{t.category|replace("os", "操作系统")|replace("technology", "Web技术")|replace("webserver", "Web服务器")|replace("front_libraries", "前端框架")|replace("web_apps", "Web程序")}}:</strong> {{t.detail}}&nbsp;
+                                    {% elif t.title and t.title != 'Unknown' %}
+                                    <strong class="label label-info">{{t.category|replace("os", "操作系统")|replace("technology", "Web技术")|replace("webserver", "Web服务器")|replace("front_libraries", "前端框架")|replace("web_apps", "Web程序")}}:</strong> {{t.title}}&nbsp;
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% macro render_pagination(pagination) %}
+                  <div class="pagination pagination-right">
+                    <ul>
+                    {% if pagination.has_prev %}
+                      <li><a href="{{ url_for('show_tech', title = title, page = pagination.page - 1) }}">&laquo; 前一页</a></li>
+                    {% endif %}
+                    {%- for page in pagination.iter_pages() %}
+                      {% if page %}
+                        {% if page != pagination.page %}
+                          <li><a href="{{ url_for('show_tech', title = title, page = page) }}">{{ page }}</a></li>
+                        {% else %}
+                          <li class="active"><a><strong>{{ page }}</strong></a></li>
+                        {% endif %}
+                      {% else %}
+                        <li><a><span class="ellipsis">…</span></a></li>
+                      {% endif %}
+                    {%- endfor %}
+                    {% if pagination.has_next %}
+                      <li><a href="{{ url_for('show_tech', title = title, page = pagination.page + 1) }}">后一页 &raquo;</a></li>
+                    {% endif %}
+                    </ul>
+                  </div>
+                {% endmacro %}
+                {{ render_pagination(websites) }}
+            </div>
+            {% endblock %}

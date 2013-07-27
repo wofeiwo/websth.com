@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+                {% block search_from %}
+                <form class="navbar-form form-search pull-right" action="{{ url_for('search', search_type = 'technology') }}" method="post">
+                  <div class="input-append">
+                    <input name="word" class="span2 input-medium search-query" type="text" placeholder="Search..." value="{{ search_word }}"/>
+                    <button type="submit" class="btn btn-primary"><i class="icon-search icon-white"></i> 搜索</button>
+                  </div>
+                </form>
+                {% endblock %}
+            {% block content %}
+            <div class="row-fluid">
+              <div class="span2">
+                <div class="sidebar-nav">
+                  <ul class="nav nav-pills nav-stacked">
+                    <li class="nav-header">搜索类型</li>
+                    <li><a href="{{ url_for('search', search_type = 'website', word=search_word) }}">网站</a></li>
+                    <li class="active"><a href="#">技术</a></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="span10">
+                <h3>{{search_word}}</h3>
+                <hr>
+                <div class="row-fluid">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <td><strong>技术</strong></td>
+                            <td><strong>类别</strong></td>
+                            <td><strong>详细</strong></td>
+                        </tr>
+                        </thead>
+                        <tbody id="detail">
+                            {% for w in techs.items %}
+                            <tr>
+                                <td><a href="{{ url_for('show_tech', title = w.title) }}">{{ w.title }}</a></td>
+                                <td><strong class="label label-info">{{w.category|replace("os", "操作系统")|replace("technology", "Web技术")|replace("webserver", "Web服务器")|replace("front_libraries", "前端框架")|replace("web_apps", "Web程序")}}</strong></td>
+                                <td>
+                                        {% if w.detail %}
+                                        {{w.detail}}
+                                        {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% macro render_pagination(pagination) %}
+                      <div class="pagination pagination-right">
+                        <ul>
+                        {% if pagination.has_prev %}
+                          <li><a href="{{ url_for('search', search_type = 'technology', word=search_word, page = pagination.page - 1) }}">&laquo; 前一页</a></li>
+                        {% endif %}
+                        {%- for page in pagination.iter_pages() %}
+                          {% if page %}
+                            {% if page != pagination.page %}
+                              <li><a href="{{ url_for('search', search_type = 'technology', word=search_word, page = page) }}">{{ page }}</a></li>
+                            {% else %}
+                              <li class="active"><a><strong>{{ page }}</strong></a></li>
+                            {% endif %}
+                          {% else %}
+                            <li><a><span class="ellipsis">…</span></a></li>
+                          {% endif %}
+                        {%- endfor %}
+                        {% if pagination.has_next %}
+                          <li><a href="{{ url_for('search', search_type = 'technology', word=search_word, page = pagination.page + 1) }}">后一页 &raquo;</a></li>
+                        {% endif %}
+                        </ul>
+                      </div>
+                    {% endmacro %}
+                    {{ render_pagination(techs) }}
+                </div>
+              </div>
+            {% endblock %}

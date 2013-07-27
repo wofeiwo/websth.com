@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+                {% block search_from %}
+                {% endblock %}
+            {% block content %}
+            <div class="hero-unit" style="text-align: center;">
+                {# <div class="span5"> #}
+                    <h1>Website Analyzer</h1>
+                    <h2 class="muted">网站技术指纹分析</h2>
+                    <p class="text-left">这是一个指纹识别工具，是一个chrome浏览器的插件。根据http头以及页面的指纹特征内容去识别当前浏览器访问的网站上使用了哪些网站技术。用户可以选择将插件收集到的信息上传到云端，并在此网站中分享给大众查询。 <small><a href="http://zone.wooyun.org/content/2691" target="_blank">了解更多 &raquo;</a></small></p>
+                {# </div> #}
+                {# <div class="span5">
+                    <img src="/static/img/screenshot1.png" class="img-rounded" />
+                </div> #}
+                <form class="form-search" action="/search" method="post">
+                  <div class="input-append">
+                    <input name="word" class="input-xxlarge search-query" type="text" placeholder="在这里输入你想查找的网站域名或者技术名称..." value="{{ search_word }}"/>
+                    <button type="submit" class="btn btn-primary"><i class="icon-search icon-white"></i> 搜索</button>
+                  </div>
+                </form>
+                <p class="muted text-right"><small>" From the Internet, For the Internet. "</small></p>
+            </div>
+            <hr>
+            <div class="row-fluid">
+                <div class="span3">
+                    <h4>Web服务器</h4>
+                    <p class="muted"><small>使用最多的Web服务器是...</small></p>
+                    <p>
+                        {% for w in webservers %}
+                            {% if w.title | wordcount > 1 %}
+                        <a class="btn btn-small btn-info" href="{{ url_for('show_tech', title = w.title) }}">{{ w.title|truncate(length = 10) }}({{ w.total }})</a>
+                            {% else %}
+                        <a class="btn btn-small btn-info" href="{{ url_for('show_tech', title = w.title) }}">{{ w.title }}({{ w.total }})</a>
+                            {% endif %}
+                        {% endfor %}
+                    </p>
+                    <a href="{{ url_for('show_tech_category', category = 'webserver') }}">更多 &raquo;</a>
+                </div>
+                <div class="span3">
+                    <h4>Web程序</h4>
+                    <p class="muted"><small>使用最多的Web应用程序是...</small></p>
+                    <p>
+                        {% for w in webapps %}
+                            {% if w.title | wordcount > 1 %}
+                        <a class="btn btn-small btn-info" href="{{ url_for('show_tech', title = w.title) }}">{{ w.title|truncate(length = 10) }}({{ w.total }})</a>
+                            {% else %}
+                        <a class="btn btn-small btn-info" href="{{ url_for('show_tech', title = w.title) }}">{{ w.title }}({{ w.total }})</a>
+                            {% endif %}
+                        {% endfor %}
+                    </p>
+                    <a href="{{ url_for('show_tech_category', category = 'web_apps') }}">更多 &raquo;</a>
+                </div>
+                <div class="span3">
+                    <h4>网页技术</h4>
+                    <p class="muted"><small>使用最多的网页技术是...</small></p>
+                    <p>
+                        {% for w in webtechnologies %}
+                            {% if w.title | wordcount > 1 %}
+                        <a class="btn btn-small btn-info" href="{{ url_for('show_tech', title = w.title) }}">{{ w.title|truncate(length = 10) }}({{ w.total }})</a>
+                            {% else %}
+                        <a class="btn btn-small btn-info" href="{{ url_for('show_tech', title = w.title) }}">{{ w.title }}({{ w.total }})</a>
+                            {% endif %}
+                        {% endfor %}
+                    </p>
+                    <a href="{{ url_for('show_tech_category', category = 'technology') }}">更多 &raquo;</a>
+                </div>
+                <div class="span3">
+                    <h4>操作系统</h4>
+                    <p class="muted"><small>使用最多的操作系统是...</small></p>
+                    <p>
+                        {% for w in oses %}
+                            {% if w.title | wordcount > 1 %}
+                        <a class="btn btn-small btn-info" href="{{ url_for('show_tech', title = w.title) }}">{{ w.title|truncate(length = 10) }}({{ w.total }})</a>
+                            {% else %}
+                        <a class="btn btn-small btn-info" href="{{ url_for('show_tech', title = w.title) }}">{{ w.title }}({{ w.total }})</a>
+                            {% endif %}
+                        {% endfor %}
+                    </p>
+                    <a href="{{ url_for('show_tech_category', category = 'os') }}">更多 &raquo;</a>
+                </div>
+            </div>
+            {% endblock %}
