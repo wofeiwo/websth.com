@@ -200,9 +200,11 @@ def search(search_type = 'website'):
         #暂时只有site:语法的处理。
         real_search_word = site
         search_type = 'website'
-    else:
+    elif site:
         real_search_word = ' '.join(tmp_words)
         search_type = 'technology'
+    else:
+        real_search_word = ' '.join(tmp_words)
 
     if search_type == 'website':
         result = Website.query.filter(Website.hostname.like('%' + real_search_word + ''))\
